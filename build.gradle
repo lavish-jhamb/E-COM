@@ -10,6 +10,7 @@ repositories {
 
 subprojects {
 	apply plugin: 'java'
+	apply plugin: 'pmd'
 	apply plugin: 'org.springframework.boot'
 	apply plugin: 'io.spring.dependency-management'
 
@@ -35,5 +36,15 @@ subprojects {
 	tasks.named('test') {
 		useJUnitPlatform()
 	}
+
+	pmd {
+		toolVersion = '7.11.0'  // Specify PMD version
+		ignoreFailures = false  // Fail build if issues are found
+		consoleOutput = true    // Show results in console
+		ruleSets = [] 		 // Disable default rules
+		ruleSetFiles = files("$rootDir/config/pmd/ruleset.xml") // Custom rules
+		reportsDir = file("$project.rootDir/build/reports/pmd/$project.name") // Report directory
+	}
+
 }
 
