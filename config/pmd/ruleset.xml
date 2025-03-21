@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<ruleset name="Custom Spring Boot Rules"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+
+    <description>PMD rule set to check code for errors and bad habits</description>
+
+    <!-- Include predefined PMD rule sets -->
+    <rule ref="category/java/bestpractices.xml"/>
+    <rule ref="category/java/errorprone.xml"/>
+    <rule ref="category/java/performance.xml"/>
+    <rule ref="category/java/codestyle.xml"/>
+    <rule ref="category/java/design.xml">
+        <exclude name="LoosePackageCoupling"/>
+    </rule>
+
+    <exclude-pattern>.*ProductServiceApplication\.java</exclude-pattern>
+    <exclude-pattern>.*ProductServiceApplicationTests\.java</exclude-pattern>
+
+    <exclude-pattern>.*UserServiceApplication\.java</exclude-pattern>
+    <exclude-pattern>.*UserServiceApplicationTests\.java</exclude-pattern>
+
+</ruleset>
