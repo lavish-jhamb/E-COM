@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- 1. Define the log directory -->
+    <property name="LOG_PATH" value="./logs" />
+
+    <!-- 2. Console appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} :  %msg%n</pattern>
+<!--            <pattern>%d{HH:mm:ss.SSS} [%thread] %highlight(%-5level){INFO=green, WARN=yellow, ERROR=red} %cyan(%logger{36}) : %highlight(%msg){INFO=green, WARN=yellow, ERROR=red}%n</pattern>-->
+        </encoder>
+    </appender>
+
+    <!-- 3. File appender with rolling policy -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- Correct file rolling pattern -->
+            <fileNamePattern>${LOG_PATH}/E-COM-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>7</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap> <!-- Optional: Limits total log storage -->
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} :  %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 4. Root logger -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
+</configuration>
