@@ -1,7 +1,7 @@
 package com.ecomhub.user.service.service.jwt;
 
 import com.ecomhub.user.service.entity.Account;
-import com.ecomhub.user.service.entity.UserPrincipal;
+import com.ecomhub.user.service.dto.UserPrincipal;
 import com.ecomhub.user.service.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

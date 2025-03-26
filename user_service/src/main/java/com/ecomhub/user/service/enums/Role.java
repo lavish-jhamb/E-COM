@@ -1,4 +1,4 @@
-package com.ecomhub.user.service.entity.enums;
+package com.ecomhub.user.service.enums;
 
 public enum Role {
     CUSTOMER,

@@ -9,7 +9,7 @@ import com.ecomhub.user.service.exception.InvalidCredentialsException;
 import com.ecomhub.user.service.exception.UserAlreadyExistException;
 import com.ecomhub.user.service.exception.UserNotFoundException;
 import com.ecomhub.user.service.entity.Profile;
-import com.ecomhub.user.service.entity.enums.Role;
+import com.ecomhub.user.service.enums.Role;
 import com.ecomhub.user.service.repository.ProfileRepository;
 import com.ecomhub.user.service.repository.AccountRepository;
 import com.ecomhub.user.service.service.jwt.JwtService;
