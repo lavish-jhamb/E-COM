@@ -1,4 +1,4 @@
-package com.ecomhub.user.service.model;
+package com.ecomhub.user.service.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
@@ -17,17 +17,17 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "user_profile")
-public class UserProfile {
+@Table(name = "profile")
+public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore // (ignore the user field in JSON response)
-    private User user;
+    @JoinColumn(name = "account_id", nullable = false)
+    @JsonIgnore // (ignore the account field in JSON response)
+    private Account account;
 
     private String username;
 

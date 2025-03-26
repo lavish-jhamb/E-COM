@@ -1,6 +1,6 @@
-package com.ecomhub.user.service.model;
+package com.ecomhub.user.service.entity;
 
-import com.ecomhub.user.service.model.enums.Role;
+import com.ecomhub.user.service.enums.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,11 +15,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "account")
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(unique = true, nullable = false)
     private String email;

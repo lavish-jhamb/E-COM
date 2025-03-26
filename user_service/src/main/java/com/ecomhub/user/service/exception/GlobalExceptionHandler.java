@@ -15,10 +15,10 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 
     /**
-     * /auth/register - Handle UserAlreadyExistException
+     *  /account/register - Handle UserAlreadyExistException
      */
-    @ExceptionHandler(UserAlreadyExistException.class)
-    public ResponseEntity<ErrorResponse> handleUserAlreadyExistException(UserAlreadyExistException exception, WebRequest request) {
+    @ExceptionHandler(AccountAlreadyExistException.class)
+    public ResponseEntity<ErrorResponse> handleUserAlreadyExistException(AccountAlreadyExistException exception, WebRequest request) {
 
         log.error("UserAlreadyExistException: {}", exception.getMessage(), exception);
 
@@ -34,10 +34,10 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * /auth/login - Handle UserNotFoundException
+     *  /account/login - Handle UserNotFoundException
      */
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException exception, WebRequest request) {
+    @ExceptionHandler(AccountNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFoundException(AccountNotFoundException exception, WebRequest request) {
 
         log.error("UserNotFoundException: {}", exception.getMessage(), exception);
 
@@ -53,7 +53,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * /auth/login - Handle InvalidCredentialsException
+     * /account/login - Handle InvalidCredentialsException
      */
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleInvalidCredentialsException(InvalidCredentialsException exception, WebRequest request) {
@@ -69,6 +69,24 @@ public class GlobalExceptionHandler {
                 .build();
 
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    /**
+     * /user/profile - Handle ProfileNotFoundException
+     */
+    @ExceptionHandler ResponseEntity<ErrorResponse> handleProfileNotFoundException(ProfileNotFoundException exception, WebRequest request) {
+
+        log.error("ProfileNotFoundException: {}", exception.getMessage(), exception);
+
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.NOT_FOUND.value())
+                .error(HttpStatus.NOT_FOUND.toString())
+                .message(exception.getMessage())
+                .path(request.getDescription(false))
+                .build();
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
 }
