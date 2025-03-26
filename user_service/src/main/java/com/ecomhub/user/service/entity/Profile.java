@@ -25,8 +25,8 @@ public class Profile {
     private Integer id;
 
     @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore // (ignore the user field in JSON response)
+    @JoinColumn(name = "account_id", nullable = false)
+    @JsonIgnore // (ignore the account field in JSON response)
     private Account account;
 
     private String username;
