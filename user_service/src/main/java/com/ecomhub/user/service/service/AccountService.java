@@ -8,9 +8,9 @@ import com.ecomhub.user.service.entity.Account;
 import com.ecomhub.user.service.exception.InvalidCredentialsException;
 import com.ecomhub.user.service.exception.UserAlreadyExistException;
 import com.ecomhub.user.service.exception.UserNotFoundException;
-import com.ecomhub.user.service.entity.UserProfile;
+import com.ecomhub.user.service.entity.Profile;
 import com.ecomhub.user.service.entity.enums.Role;
-import com.ecomhub.user.service.repository.UserProfileRepository;
+import com.ecomhub.user.service.repository.ProfileRepository;
 import com.ecomhub.user.service.repository.AccountRepository;
 import com.ecomhub.user.service.service.jwt.JwtService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ public class AccountService {
     private AccountRepository accountRepository;
 
     @Autowired
-    private UserProfileRepository userProfileRepository;
+    private ProfileRepository profileRepository;
 
     @Autowired
     private PasswordEncoder encoder;
@@ -79,11 +79,11 @@ public class AccountService {
     }
 
     public void createUserProfile(Account account){
-        UserProfile userProfile = new UserProfile();
-        userProfile.setUsername(account.getEmail().split("@")[0]);
-        userProfile.setEmail(account.getEmail());
-        userProfile.setAccount(account);
-        userProfileRepository.save(userProfile);
+        Profile profile = new Profile();
+        profile.setUsername(account.getEmail().split("@")[0]);
+        profile.setEmail(account.getEmail());
+        profile.setAccount(account);
+        profileRepository.save(profile);
         log.info("User profile created successfully for user: {}", account.getEmail());
     }
 

@@ -1,10 +1,10 @@
 package com.ecomhub.user.service.controller;
 
-import com.ecomhub.user.service.dto.UserProfileDTO;
+import com.ecomhub.user.service.dto.ProfileDTO;
 import com.ecomhub.user.service.entity.UserPrincipal;
-import com.ecomhub.user.service.entity.UserProfile;
+import com.ecomhub.user.service.entity.Profile;
 import com.ecomhub.user.service.response.ApiResponse;
-import com.ecomhub.user.service.service.UserProfileService;
+import com.ecomhub.user.service.service.ProfileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,23 +21,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 @RequestMapping("/profile")
-public class UserProfileController {
+public class ProfileController {
 
     @Autowired
-    private UserProfileService userProfileService;
+    private ProfileService profileService;
 
     @GetMapping
     @PreAuthorize("hasRole('CUSTOMER')")
-    public ResponseEntity<ApiResponse<UserProfile>> getProfile(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public ResponseEntity<ApiResponse<Profile>> getProfile(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         log.info("request received to fetch user profile");
 
         long id = userPrincipal.getId();
-        UserProfile userProfile = userProfileService.getProfile(id);
+        Profile profile = profileService.getProfile(id);
 
-        ApiResponse<UserProfile> response = new ApiResponse<>(
+        ApiResponse<Profile> response = new ApiResponse<>(
                 true,
                 "User profile fetched successfully with id: " + id,
-                userProfile
+                profile
         );
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -45,14 +45,14 @@ public class UserProfileController {
 
     @PatchMapping("/update")
     @PreAuthorize("hasRole('CUSTOMER')")
-    public ResponseEntity<ApiResponse<UserProfileDTO>> updateProfile(@AuthenticationPrincipal UserPrincipal userPrincipal, @RequestBody UserProfileDTO userProfileDTO) {
+    public ResponseEntity<ApiResponse<ProfileDTO>> updateProfile(@AuthenticationPrincipal UserPrincipal userPrincipal, @RequestBody ProfileDTO profileDTO) {
         log.info("request received to update user profile");
-        log.info("user profile: {}", userProfileDTO);
+        log.info("user profile: {}", profileDTO);
 
         long id = userPrincipal.getId();
-        UserProfileDTO userProfile = userProfileService.updateProfile(id, userProfileDTO);
+        ProfileDTO userProfile = profileService.updateProfile(id, profileDTO);
 
-        ApiResponse<UserProfileDTO> response = new ApiResponse<>(
+        ApiResponse<ProfileDTO> response = new ApiResponse<>(
                 true,
                 "User profile updated successfully with id: " + id,
                 userProfile

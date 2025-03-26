@@ -17,12 +17,12 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "user_profile")
-public class UserProfile {
+@Table(name = "profile")
+public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)

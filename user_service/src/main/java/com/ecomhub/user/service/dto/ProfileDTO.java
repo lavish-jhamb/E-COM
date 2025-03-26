@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserProfileDTO {
+public class ProfileDTO {
     private String phone;
     private String profilePicture;
 }
