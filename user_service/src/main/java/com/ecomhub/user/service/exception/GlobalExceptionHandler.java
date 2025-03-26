@@ -15,12 +15,12 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 
     /**
-     *  /account/register - Handle UserAlreadyExistException
+     * HANDLE ACCOUNT SERVICE EXCEPTIONS
      */
     @ExceptionHandler(AccountAlreadyExistException.class)
     public ResponseEntity<ErrorResponse> handleUserAlreadyExistException(AccountAlreadyExistException exception, WebRequest request) {
 
-        log.error("UserAlreadyExistException: {}", exception.getMessage(), exception);
+        log.error("AccountAlreadyExistException: {}", exception.getMessage(), exception);
 
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .timestamp(LocalDateTime.now())
@@ -33,13 +33,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    /**
-     *  /account/login - Handle UserNotFoundException
-     */
     @ExceptionHandler(AccountNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleUserNotFoundException(AccountNotFoundException exception, WebRequest request) {
 
-        log.error("UserNotFoundException: {}", exception.getMessage(), exception);
+        log.error("AccountNotFoundException: {}", exception.getMessage(), exception);
 
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .timestamp(LocalDateTime.now())
@@ -52,9 +49,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
-    /**
-     * /account/login - Handle InvalidCredentialsException
-     */
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleInvalidCredentialsException(InvalidCredentialsException exception, WebRequest request) {
 
@@ -72,11 +66,47 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * /user/profile - Handle ProfileNotFoundException
+     * HANDLE PROFILE SERVICE EXCEPTIONS
      */
-    @ExceptionHandler ResponseEntity<ErrorResponse> handleProfileNotFoundException(ProfileNotFoundException exception, WebRequest request) {
+    @ExceptionHandler(ProfileNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleProfileNotFoundException(ProfileNotFoundException exception, WebRequest request) {
 
         log.error("ProfileNotFoundException: {}", exception.getMessage(), exception);
+
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.NOT_FOUND.value())
+                .error(HttpStatus.NOT_FOUND.toString())
+                .message(exception.getMessage())
+                .path(request.getDescription(false))
+                .build();
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * HANDLE ADDRESS SERVICE EXCEPTIONS
+     */
+    @ExceptionHandler(AddressLimitExceededException.class)
+    public ResponseEntity<ErrorResponse> handleAddressLimitExceededException(AddressLimitExceededException exception, WebRequest request) {
+
+        log.error("AddressLimitExceededException: {}", exception.getMessage(), exception);
+
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .error(HttpStatus.BAD_REQUEST.toString())
+                .message(exception.getMessage())
+                .path(request.getDescription(false))
+                .build();
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AddressNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleAddressNotFoundException(AddressNotFoundException exception, WebRequest request) {
+
+        log.error("AddressNotFoundException: {}", exception.getMessage(), exception);
 
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .timestamp(LocalDateTime.now())
