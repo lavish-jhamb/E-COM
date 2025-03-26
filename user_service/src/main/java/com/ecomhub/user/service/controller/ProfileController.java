@@ -29,14 +29,14 @@ public class ProfileController {
     @GetMapping
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<ApiResponse<Profile>> getProfile(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        log.info("request received to fetch account profile for account: {}", userPrincipal.getUsername());
+        log.info("request received to fetch profile for account: {}", userPrincipal.getUsername());
 
         long id = userPrincipal.getId();
         Profile profile = profileService.getProfile(id);
 
         ApiResponse<Profile> response = new ApiResponse<>(
                 true,
-                "account profile fetched successfully for account: " + userPrincipal.getUsername(),
+                "profile fetched successfully for account: " + userPrincipal.getUsername(),
                 profile
         );
 
@@ -46,7 +46,7 @@ public class ProfileController {
     @PatchMapping("/update")
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<ApiResponse<ProfileDTO>> updateProfile(@AuthenticationPrincipal UserPrincipal userPrincipal, @RequestBody ProfileDTO profileDTO) {
-        log.info("request received to update account profile for account: {}", userPrincipal.getUsername());
+        log.info("request received to update profile for account: {}", userPrincipal.getUsername());
         log.info("profile request received: {}", profileDTO);
 
         long id = userPrincipal.getId();
@@ -54,7 +54,7 @@ public class ProfileController {
 
         ApiResponse<ProfileDTO> response = new ApiResponse<>(
                 true,
-                "account profile updated successfully for account: " + userPrincipal.getUsername(),
+                "profile updated successfully for account: " + userPrincipal.getUsername(),
                 userProfile
         );
 

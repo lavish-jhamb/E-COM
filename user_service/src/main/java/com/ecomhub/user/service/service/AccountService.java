@@ -85,7 +85,7 @@ public class AccountService {
         profile.setEmail(account.getEmail());
         profile.setAccount(account);
         profileRepository.save(profile);
-        log.info("account profile created successfully for account: {}", account.getEmail());
+        log.info("profile created successfully for account: {}", account.getEmail());
     }
 
 }
