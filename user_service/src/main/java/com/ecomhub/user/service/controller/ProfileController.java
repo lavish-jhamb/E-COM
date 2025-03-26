@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
-@RequestMapping("/user/profile")
+@RequestMapping("/account/profile")
 public class ProfileController {
 
     @Autowired
@@ -31,7 +31,7 @@ public class ProfileController {
     public ResponseEntity<ApiResponse<Profile>> getProfile(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         log.info("request received to fetch profile for account: {}", userPrincipal.getUsername());
 
-        long id = userPrincipal.getId();
+        int id = userPrincipal.getId();
         Profile profile = profileService.getProfile(id);
 
         ApiResponse<Profile> response = new ApiResponse<>(
@@ -49,7 +49,7 @@ public class ProfileController {
         log.info("request received to update profile for account: {}", userPrincipal.getUsername());
         log.info("profile request received: {}", profileDTO);
 
-        long id = userPrincipal.getId();
+        int id = userPrincipal.getId();
         ProfileDTO userProfile = profileService.updateProfile(id, profileDTO);
 
         ApiResponse<ProfileDTO> response = new ApiResponse<>(

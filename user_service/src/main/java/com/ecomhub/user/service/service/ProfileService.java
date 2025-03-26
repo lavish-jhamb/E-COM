@@ -19,14 +19,14 @@ public class ProfileService {
     @Autowired
     private ModelMapper mapper;
 
-    public Profile getProfile(long id) {
-        return profileRepository.findByUser_Id(id)
+    public Profile getProfile(int id) {
+        return profileRepository.findByAccount_Id(id)
                 .orElseThrow(() -> new ProfileNotFoundException("account profile not found with id: " + id));
     }
 
-    public ProfileDTO updateProfile(long id, ProfileDTO profileDTO) {
+    public ProfileDTO updateProfile(int id, ProfileDTO profileDTO) {
 
-        Profile profile = profileRepository.findByUser_Id(id)
+        Profile profile = profileRepository.findByAccount_Id(id)
                 .orElseThrow(() -> new ProfileNotFoundException("account profile not found with id: " + id));
 
         if (profileDTO.getPhone() != null) {

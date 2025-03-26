@@ -40,7 +40,7 @@ public class AccountController {
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest request) {
-        log.info("account login request received: {}", request);
+        log.info("account login request received: {}", request.getEmail());
 
         LoginResponse loginResponse = accountService.login(request);
 
