@@ -8,9 +8,12 @@ import com.ecomhub.user.service.exception.InvalidCredentialsException;
 import com.ecomhub.user.service.exception.UserAlreadyExistException;
 import com.ecomhub.user.service.exception.UserNotFoundException;
 import com.ecomhub.user.service.model.User;
+import com.ecomhub.user.service.model.UserProfile;
 import com.ecomhub.user.service.model.enums.Role;
+import com.ecomhub.user.service.repository.UserProfileRepository;
 import com.ecomhub.user.service.repository.UserRepository;
 import com.ecomhub.user.service.service.jwt.JwtService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,10 +21,14 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class UserService {
+@Slf4j
+public class AuthenticationService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserProfileRepository userProfileRepository;
 
     @Autowired
     private PasswordEncoder encoder;
@@ -43,6 +50,9 @@ public class UserService {
         newUser.setRole(role);
 
         User savedUser = userRepository.save(newUser);
+
+        // Create user profile
+        createUserProfile(savedUser);
 
         RegisterResponse response = new RegisterResponse();
         response.setId(savedUser.getId());
@@ -66,6 +76,15 @@ public class UserService {
         response.setToken(token);
 
         return response;
+    }
+
+    public void createUserProfile(User user){
+        UserProfile userProfile = new UserProfile();
+        userProfile.setUsername(user.getEmail().split("@")[0]);
+        userProfile.setEmail(user.getEmail());
+        userProfile.setUser(user);
+        userProfileRepository.save(userProfile);
+        log.info("User profile created successfully for user: {}", user.getEmail());
     }
 
 }
