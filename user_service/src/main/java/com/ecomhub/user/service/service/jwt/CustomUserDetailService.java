@@ -1,8 +1,8 @@
 package com.ecomhub.user.service.service.jwt;
 
-import com.ecomhub.user.service.model.User;
-import com.ecomhub.user.service.model.UserPrincipal;
-import com.ecomhub.user.service.repository.UserRepository;
+import com.ecomhub.user.service.entity.Account;
+import com.ecomhub.user.service.entity.UserPrincipal;
+import com.ecomhub.user.service.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,15 +13,15 @@ import org.springframework.stereotype.Service;
 public class CustomUserDetailService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    private AccountRepository accountRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        User user = userRepository.findByEmail(email)
+        Account account = accountRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        return new UserPrincipal(user);
+        return new UserPrincipal(account);
     }
 
 }

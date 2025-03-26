@@ -1,8 +1,8 @@
 package com.ecomhub.user.service.controller;
 
 import com.ecomhub.user.service.dto.UserProfileDTO;
-import com.ecomhub.user.service.model.UserPrincipal;
-import com.ecomhub.user.service.model.UserProfile;
+import com.ecomhub.user.service.entity.UserPrincipal;
+import com.ecomhub.user.service.entity.UserProfile;
 import com.ecomhub.user.service.response.ApiResponse;
 import com.ecomhub.user.service.service.UserProfileService;
 import lombok.extern.slf4j.Slf4j;

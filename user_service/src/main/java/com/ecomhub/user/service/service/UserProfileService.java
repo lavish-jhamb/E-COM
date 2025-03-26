@@ -2,7 +2,7 @@ package com.ecomhub.user.service.service;
 
 import com.ecomhub.user.service.dto.UserProfileDTO;
 import com.ecomhub.user.service.exception.UserProfileNotFoundException;
-import com.ecomhub.user.service.model.UserProfile;
+import com.ecomhub.user.service.entity.UserProfile;
 import com.ecomhub.user.service.repository.UserProfileRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;

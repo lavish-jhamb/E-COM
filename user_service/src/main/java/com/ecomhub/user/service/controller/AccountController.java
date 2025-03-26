@@ -5,7 +5,7 @@ import com.ecomhub.user.service.dto.request.LoginRequest;
 import com.ecomhub.user.service.dto.response.LoginResponse;
 import com.ecomhub.user.service.dto.response.RegisterResponse;
 import com.ecomhub.user.service.response.ApiResponse;
-import com.ecomhub.user.service.service.AuthenticationService;
+import com.ecomhub.user.service.service.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,16 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/auth")
 @Slf4j
-public class AuthenticationController {
+public class AccountController {
 
     @Autowired
-    private AuthenticationService authenticationService;
+    private AccountService accountService;
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<?>> register(@RequestBody RegisterRequest request) {
         log.info("user registration request received: {}", request);
 
-        RegisterResponse registerResponse = authenticationService.register(request);
+        RegisterResponse registerResponse = accountService.register(request);
 
         log.info("user registered successfully: {}", registerResponse);
 
@@ -44,7 +44,7 @@ public class AuthenticationController {
     public ResponseEntity<ApiResponse<?>> login(@RequestBody LoginRequest request) {
         log.info("user login request received: {}", request);
 
-        LoginResponse loginResponse = authenticationService.login(request);
+        LoginResponse loginResponse = accountService.login(request);
 
         ApiResponse<LoginResponse> response = new ApiResponse<>(
                 true,

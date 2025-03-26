@@ -1,4 +1,4 @@
-package com.ecomhub.user.service.model;
+package com.ecomhub.user.service.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
@@ -27,7 +27,7 @@ public class UserProfile {
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore // (ignore the user field in JSON response)
-    private User user;
+    private Account account;
 
     private String username;
 

@@ -1,6 +1,6 @@
 package com.ecomhub.user.service.repository;
 
-import com.ecomhub.user.service.model.UserProfile;
+import com.ecomhub.user.service.entity.UserProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
