@@ -1,7 +1,7 @@
 package com.ecomhub.user.service.service;
 
 import com.ecomhub.user.service.dto.ProfileDTO;
-import com.ecomhub.user.service.exception.UserProfileNotFoundException;
+import com.ecomhub.user.service.exception.ProfileNotFoundException;
 import com.ecomhub.user.service.entity.Profile;
 import com.ecomhub.user.service.repository.ProfileRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -21,13 +21,13 @@ public class ProfileService {
 
     public Profile getProfile(long id) {
         return profileRepository.findByUser_Id(id)
-                .orElseThrow(() -> new UserProfileNotFoundException("User profile not found: " + id));
+                .orElseThrow(() -> new ProfileNotFoundException("account profile not found with id: " + id));
     }
 
     public ProfileDTO updateProfile(long id, ProfileDTO profileDTO) {
 
         Profile profile = profileRepository.findByUser_Id(id)
-                .orElseThrow(() -> new UserProfileNotFoundException("User profile not found: " + id));
+                .orElseThrow(() -> new ProfileNotFoundException("account profile not found with id: " + id));
 
         if (profileDTO.getPhone() != null) {
             profile.setPhone(profileDTO.getPhone());
@@ -38,7 +38,7 @@ public class ProfileService {
 
         Profile updatedProfile = profileRepository.save(profile);
 
-        log.info("User profile updated successfully with id: {} ", id);
+        log.info("account profile updated successfully with id: {} ", id);
 
         return mapper.map(updatedProfile, ProfileDTO.class);
     }

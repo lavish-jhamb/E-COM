@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
-@RequestMapping("/profile")
+@RequestMapping("/user/profile")
 public class ProfileController {
 
     @Autowired
@@ -29,14 +29,14 @@ public class ProfileController {
     @GetMapping
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<ApiResponse<Profile>> getProfile(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        log.info("request received to fetch user profile");
+        log.info("request received to fetch account profile for account: {}", userPrincipal.getUsername());
 
         long id = userPrincipal.getId();
         Profile profile = profileService.getProfile(id);
 
         ApiResponse<Profile> response = new ApiResponse<>(
                 true,
-                "User profile fetched successfully with id: " + id,
+                "account profile fetched successfully for account: " + userPrincipal.getUsername(),
                 profile
         );
 
@@ -46,19 +46,19 @@ public class ProfileController {
     @PatchMapping("/update")
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<ApiResponse<ProfileDTO>> updateProfile(@AuthenticationPrincipal UserPrincipal userPrincipal, @RequestBody ProfileDTO profileDTO) {
-        log.info("request received to update user profile");
-        log.info("user profile: {}", profileDTO);
+        log.info("request received to update account profile for account: {}", userPrincipal.getUsername());
+        log.info("profile request received: {}", profileDTO);
 
         long id = userPrincipal.getId();
         ProfileDTO userProfile = profileService.updateProfile(id, profileDTO);
 
         ApiResponse<ProfileDTO> response = new ApiResponse<>(
                 true,
-                "User profile updated successfully with id: " + id,
+                "account profile updated successfully for account: " + userPrincipal.getUsername(),
                 userProfile
         );
 
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
 }

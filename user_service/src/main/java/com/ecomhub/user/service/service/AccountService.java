@@ -6,8 +6,8 @@ import com.ecomhub.user.service.dto.response.LoginResponse;
 import com.ecomhub.user.service.dto.response.RegisterResponse;
 import com.ecomhub.user.service.entity.Account;
 import com.ecomhub.user.service.exception.InvalidCredentialsException;
-import com.ecomhub.user.service.exception.UserAlreadyExistException;
-import com.ecomhub.user.service.exception.UserNotFoundException;
+import com.ecomhub.user.service.exception.AccountAlreadyExistException;
+import com.ecomhub.user.service.exception.AccountNotFoundException;
 import com.ecomhub.user.service.entity.Profile;
 import com.ecomhub.user.service.enums.Role;
 import com.ecomhub.user.service.repository.ProfileRepository;
@@ -37,10 +37,10 @@ public class AccountService {
     private JwtService jwtService;
 
     public RegisterResponse register(RegisterRequest request) {
-        Optional<Account> user = accountRepository.findByEmail(request.getEmail());
+        Optional<Account> account = accountRepository.findByEmail(request.getEmail());
 
-        if (user.isPresent())
-            throw new UserAlreadyExistException("User already exist with email: " + request.getEmail());
+        if (account.isPresent())
+            throw new AccountAlreadyExistException("account already exist with email: " + request.getEmail());
 
         Role role = request.isSeller() ? Role.SELLER : Role.CUSTOMER;
 
@@ -50,6 +50,7 @@ public class AccountService {
         newAccount.setRole(role);
 
         Account savedAccount = accountRepository.save(newAccount);
+        log.info("account registered successfully: {}", savedAccount);
 
         // Create user profile
         createUserProfile(savedAccount);
@@ -64,12 +65,12 @@ public class AccountService {
     public LoginResponse login(LoginRequest request) {
 
         Account account = accountRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + request.getEmail()));
+                .orElseThrow(() -> new AccountNotFoundException("account not found with email: " + request.getEmail()));
 
         LoginResponse response = new LoginResponse();
 
         if (!encoder.matches(request.getPassword(), account.getPassword())) {
-            throw new InvalidCredentialsException("Invalid credentials");
+            throw new InvalidCredentialsException("invalid credentials");
         }
 
         String token = jwtService.generateToken(account.getEmail());
@@ -84,7 +85,7 @@ public class AccountService {
         profile.setEmail(account.getEmail());
         profile.setAccount(account);
         profileRepository.save(profile);
-        log.info("User profile created successfully for user: {}", account.getEmail());
+        log.info("account profile created successfully for account: {}", account.getEmail());
     }
 
 }

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/account")
 @Slf4j
 public class AccountController {
 
@@ -24,16 +24,14 @@ public class AccountController {
     private AccountService accountService;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<?>> register(@RequestBody RegisterRequest request) {
-        log.info("user registration request received: {}", request);
+    public ResponseEntity<ApiResponse<RegisterResponse>> register(@RequestBody RegisterRequest request) {
+        log.info("account registration request received - email: {}, seller: {}", request.getEmail(), request.isSeller());
 
         RegisterResponse registerResponse = accountService.register(request);
 
-        log.info("user registered successfully: {}", registerResponse);
-
         ApiResponse<RegisterResponse> response = new ApiResponse<>(
                 true,
-                "User registered successfully",
+                "account registered successfully",
                 registerResponse
         );
 
@@ -41,14 +39,14 @@ public class AccountController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<?>> login(@RequestBody LoginRequest request) {
-        log.info("user login request received: {}", request);
+    public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody LoginRequest request) {
+        log.info("account login request received: {}", request);
 
         LoginResponse loginResponse = accountService.login(request);
 
         ApiResponse<LoginResponse> response = new ApiResponse<>(
                 true,
-                "User logged in successfully",
+                "account logged in successfully",
                 loginResponse
         );
 
