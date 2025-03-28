@@ -1,7 +1,6 @@
-package com.ecomhub.user.service.config;
+package com.ecomhub.security.config;
 
-import com.ecomhub.user.service.config.filter.JwtFilter;
-import org.modelmapper.ModelMapper;
+import com.ecomhub.security.config.filter.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity // Enable method-level security ( @PreAuthorize, @PostAuthorize, @PreFilter, @PostFilter )
-public class SecurityConfiguration {
+public class BaseSecurityConfiguration {
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -57,11 +56,6 @@ public class SecurityConfiguration {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
-    }
-
-    @Bean
-    ModelMapper mapper() {
-        return new ModelMapper();
     }
 
 }

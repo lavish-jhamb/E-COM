@@ -1,4 +1,4 @@
-package com.ecomhub.user.service.service.jwt;
+package com.ecomhub.user.service.service.authentication;
 
 import com.ecomhub.user.service.entity.Account;
 import com.ecomhub.user.service.dto.UserPrincipal;

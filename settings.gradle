@@ -2,3 +2,4 @@ rootProject.name = 'E-COM'
 
 include "user_service"
 include "product_service"
+include "security-service"
