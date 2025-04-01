@@ -1,5 +1,5 @@
 rootProject.name = 'E-COM'
 
-include "user_service"
-include "product_service"
+include "user-service"
+include "product-service"
 include "security-service"
