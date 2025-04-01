@@ -12,7 +12,7 @@ import com.ecomhub.user.service.entity.Profile;
 import com.ecomhub.user.service.enums.Role;
 import com.ecomhub.user.service.repository.ProfileRepository;
 import com.ecomhub.user.service.repository.AccountRepository;
-import com.ecomhub.user.service.service.jwt.JwtService;
+import com.ecomhub.security.service.JwtService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -67,13 +67,13 @@ public class AccountService {
         Account account = accountRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new AccountNotFoundException("account not found with email: " + request.getEmail()));
 
-        LoginResponse response = new LoginResponse();
-
         if (!encoder.matches(request.getPassword(), account.getPassword())) {
             throw new InvalidCredentialsException("invalid credentials");
         }
 
-        String token = jwtService.generateToken(account.getEmail());
+        LoginResponse response = new LoginResponse();
+
+        String token = jwtService.generateToken(account.getId(), account.getEmail(), account.getRole().toString());
         response.setToken(token);
 
         return response;
