@@ -23,34 +23,24 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String SECRET_KEY;
 
+    private static final int EXPIRATION_TIME = 60 * 60 * 1000; // 1 hour
+
     public JwtService() {
 
     }
 
-    public String generateToken(String username) {
+    public String generateToken(int id, String email, String role) {
         Map<String, Object> claims = new HashMap<>();
-
-        return Jwts.builder()
-                .claims()
-                .add(claims)
-                .subject(username)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 60 * 60 * 10 * 30))
-                .and()
-                .signWith(getKey())
-                .compact();
-    }
-
-    public String generateToken(String username, String role) {
-        Map<String, Object> claims = new HashMap<>();
+        claims.put("id", id);
+        claims.put("email", email);
         claims.put("role", role);
 
         return Jwts.builder()
                 .claims()
                 .add(claims)
-                .subject(username)
+                .subject(email)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 60 * 60 * 10 * 30))
+                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .and()
                 .signWith(getKey())
                 .compact();
@@ -63,6 +53,10 @@ public class JwtService {
 
     public String extractUserName(String token) {
         return extractClaim(token, Claims::getSubject);
+    }
+
+    public String extractUserId(String token) {
+        return extractClaim(token, claims -> claims.get("id", String.class));
     }
 
     public List<GrantedAuthority> extractRoles(String token) {

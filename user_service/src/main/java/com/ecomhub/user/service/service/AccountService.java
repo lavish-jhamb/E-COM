@@ -73,7 +73,7 @@ public class AccountService {
 
         LoginResponse response = new LoginResponse();
 
-        String token = jwtService.generateToken(account.getEmail(), account.getRole().toString());
+        String token = jwtService.generateToken(account.getId(), account.getEmail(), account.getRole().toString());
         response.setToken(token);
 
         return response;
