@@ -2,6 +2,7 @@ package com.ecomhub.security.config;
 
 import com.ecomhub.security.config.filter.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,10 +27,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class BaseSecurityConfiguration {
 
     @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
     private JwtFilter jwtFilter;
+
+    @Value("${security.database.validation:false}") // Default false for product-service
+    private boolean userDetailsServiceEnabled;
+
+    @Autowired(required = false) // Optional injection to avoid errors in product-service
+    private UserDetailsService userDetailsService;
 
     @Bean
     public SecurityFilterChain filter(HttpSecurity http) throws Exception {
@@ -47,6 +52,20 @@ public class BaseSecurityConfiguration {
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
+        if (!userDetailsServiceEnabled) {
+            return new AuthenticationProvider() {
+                @Override
+                public Authentication authenticate(Authentication authentication) {
+                    return authentication; // No-op authentication (for product-service)
+                }
+
+                @Override
+                public boolean supports(Class<?> authentication) {
+                    return true; // Accepts all authentication types
+                }
+            };
+        }
+        // For user-service, use UserDetailsService-based authentication
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(encoder());
         provider.setUserDetailsService(userDetailsService);

@@ -1,5 +1,6 @@
 package com.ecomhub.security.config.filter;
 
+import com.ecomhub.security.model.Principal;
 import com.ecomhub.security.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -25,10 +26,10 @@ public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     private JwtService jwtService;
 
-    @Autowired
+    @Autowired(required = false) // Optional injection
     private UserDetailsService userDetailsService;
 
-    @Value("${security.database.validation}")
+    @Value("${security.database.validation:false}")
     private boolean userDetailsServiceEnabled;
 
     @Override
@@ -45,19 +46,20 @@ public class JwtFilter extends OncePerRequestFilter {
         try {
             String username = jwtService.extractUserName(token);
             List<GrantedAuthority> role = jwtService.extractRoles(token);
+            Integer userId = jwtService.extractUserId(token);
 
             // If the user is not already authenticated
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
                 UsernamePasswordAuthenticationToken authToken;
 
-                // Case 1: Use UserDetailsService if it's present (e.g., user-service context)
-                if(userDetailsServiceEnabled) {
+                // Case 1: Use UserDetailsService if enabled (user-service)
+                if (userDetailsServiceEnabled && userDetailsService != null) {
                     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
                     // Validate token using user details
                     if(jwtService.validateToken(token, userDetails)){
-                        authToken = new UsernamePasswordAuthenticationToken(userDetails,null, userDetails.getAuthorities());
+                        authToken = new UsernamePasswordAuthenticationToken(userDetails,userId, userDetails.getAuthorities());
                     }
                     else {
                         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -65,7 +67,8 @@ public class JwtFilter extends OncePerRequestFilter {
                         return; // Prevents further execution
                     }
                 } else { // Case 2: No UserDetailsService → Use direct extraction via JWT token (e.g., product-service)
-                    authToken = new UsernamePasswordAuthenticationToken(username, null, role);
+                    Principal principal = new Principal(userId, username, role);
+                    authToken = new UsernamePasswordAuthenticationToken(principal, null, role);
                 }
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);

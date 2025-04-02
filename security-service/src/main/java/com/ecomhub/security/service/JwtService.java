@@ -55,8 +55,8 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public String extractUserId(String token) {
-        return extractClaim(token, claims -> claims.get("id", String.class));
+    public Integer extractUserId(String token) {
+        return extractClaim(token, claims -> claims.get("id", Integer.class));
     }
 
     public List<GrantedAuthority> extractRoles(String token) {
