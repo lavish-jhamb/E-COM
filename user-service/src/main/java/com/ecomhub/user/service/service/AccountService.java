@@ -28,13 +28,14 @@ public class AccountService {
     private AccountRepository accountRepository;
 
     @Autowired
-    private ProfileRepository profileRepository;
-
-    @Autowired
     private PasswordEncoder encoder;
 
     @Autowired
     private JwtService jwtService;
+
+    @Autowired
+    private OtpService otpService;
+
 
     public RegisterResponse register(RegisterRequest request) {
         Optional<Account> account = accountRepository.findByEmail(request.getEmail());
@@ -42,18 +43,15 @@ public class AccountService {
         if (account.isPresent())
             throw new AccountAlreadyExistException("account already exist with email: " + request.getEmail());
 
-        Role role = request.isSeller() ? Role.SELLER : Role.CUSTOMER;
-
         Account newAccount = new Account();
         newAccount.setEmail(request.getEmail());
         newAccount.setPassword(encoder.encode(request.getPassword()));
-        newAccount.setRole(role);
+        newAccount.setRole(request.isSeller() ? Role.SELLER : Role.CUSTOMER);
 
         Account savedAccount = accountRepository.save(newAccount);
         log.info("account registered successfully: {}", savedAccount);
 
-        // Create user profile
-        createUserProfile(savedAccount);
+        otpService.sendOtp(savedAccount.getEmail());
 
         RegisterResponse response = new RegisterResponse();
         response.setId(savedAccount.getId());
@@ -71,21 +69,29 @@ public class AccountService {
             throw new InvalidCredentialsException("invalid credentials");
         }
 
-        LoginResponse response = new LoginResponse();
+        if(!account.isVerified()){
+            throw new InvalidCredentialsException("please verify your email first.");
+        }
 
         String token = jwtService.generateToken(account.getId(), account.getEmail(), account.getRole().toString());
+
+        LoginResponse response = new LoginResponse();
         response.setToken(token);
 
         return response;
     }
 
-    public void createUserProfile(Account account){
-        Profile profile = new Profile();
-        profile.setUsername(account.getEmail().split("@")[0]);
-        profile.setEmail(account.getEmail());
-        profile.setAccount(account);
-        profileRepository.save(profile);
-        log.info("profile created successfully for account: {}", account.getEmail());
+    public void verifyAccount(String email, String otp) {
+        boolean isValid = otpService.verifyOtp(email, otp);
+
+        if (isValid) {
+            Account account = accountRepository.findByEmail(email)
+                    .orElseThrow(() -> new AccountNotFoundException("Account not found with email: " + email));
+            account.setVerified(true);
+            accountRepository.save(account);
+
+            log.info("OTP verified successfully for email: {}", email);
+        }
     }
 
 }
