@@ -21,4 +21,14 @@ public class EmailService {
         javaMailSender.send(message);
     }
 
+    public void sendReminderEmail(String to) {
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("Reminder: Verify Your Account");
+        message.setText("Please verify your account to enjoy all features.");
+
+        javaMailSender.send(message);
+    }
+
 }
