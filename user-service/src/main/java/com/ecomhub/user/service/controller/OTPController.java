@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/otp")
-public class OtpController {
+public class OTPController {
 
     @Autowired
     public OtpService otpService;
