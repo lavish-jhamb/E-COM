@@ -29,4 +29,7 @@ public class Account {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Column(name = "verified")
+    private boolean verified;
 }
