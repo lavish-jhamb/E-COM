@@ -1,7 +1,7 @@
-package com.ecomhub.user.service.controller;
+package com.ecomhub.user.service.controller.authentication;
 
-import com.ecomhub.user.service.service.AccountService;
-import com.ecomhub.user.service.service.OtpService;
+import com.ecomhub.user.service.service.authentication.AccountService;
+import com.ecomhub.user.service.service.authentication.OtpService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

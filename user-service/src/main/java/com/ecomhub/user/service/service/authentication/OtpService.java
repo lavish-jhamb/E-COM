@@ -1,11 +1,11 @@
-package com.ecomhub.user.service.service;
+package com.ecomhub.user.service.service.authentication;
 
 import com.ecomhub.user.service.entity.OTP;
 import com.ecomhub.user.service.exception.InvalidOtpException;
 import com.ecomhub.user.service.exception.OtpExpiredException;
 import com.ecomhub.user.service.exception.OtpNotFoundException;
 import com.ecomhub.user.service.repository.OtpRepository;
-import com.ecomhub.user.service.service.smtp.EmailService;
+import com.ecomhub.user.service.service.authentication.smtp.EmailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

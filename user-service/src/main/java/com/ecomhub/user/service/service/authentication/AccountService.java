@@ -1,4 +1,4 @@
-package com.ecomhub.user.service.service;
+package com.ecomhub.user.service.service.authentication;
 
 import com.ecomhub.user.service.dto.request.RegisterRequest;
 import com.ecomhub.user.service.dto.request.LoginRequest;
@@ -8,7 +8,7 @@ import com.ecomhub.user.service.entity.Account;
 import com.ecomhub.user.service.exception.InvalidCredentialsException;
 import com.ecomhub.user.service.exception.AccountAlreadyExistException;
 import com.ecomhub.user.service.exception.AccountNotFoundException;
-import com.ecomhub.user.service.enums.Role;
+import com.ecomhub.user.service.entity.enums.Role;
 import com.ecomhub.user.service.repository.AccountRepository;
 import com.ecomhub.security.service.JwtService;
 import lombok.extern.slf4j.Slf4j;

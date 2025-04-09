@@ -1,4 +1,4 @@
-package com.ecomhub.user.service.service.smtp;
+package com.ecomhub.user.service.service.authentication.smtp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;

@@ -1,6 +1,6 @@
 package com.ecomhub.user.service.entity;
 
-import com.ecomhub.user.service.enums.Role;
+import com.ecomhub.user.service.entity.enums.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

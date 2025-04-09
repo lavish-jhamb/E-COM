@@ -2,7 +2,7 @@ package com.ecomhub.user.service.job;
 
 import com.ecomhub.user.service.entity.Account;
 import com.ecomhub.user.service.repository.AccountRepository;
-import com.ecomhub.user.service.service.smtp.EmailService;
+import com.ecomhub.user.service.service.authentication.smtp.EmailService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
