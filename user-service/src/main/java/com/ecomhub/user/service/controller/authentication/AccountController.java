@@ -1,13 +1,12 @@
-package com.ecomhub.user.service.controller;
+package com.ecomhub.user.service.controller.authentication;
 
+import com.ecomhub.user.service.common.constants.ApiPaths;
 import com.ecomhub.user.service.dto.request.RegisterRequest;
 import com.ecomhub.user.service.dto.request.LoginRequest;
 import com.ecomhub.user.service.dto.response.LoginResponse;
 import com.ecomhub.user.service.dto.response.RegisterResponse;
-import com.ecomhub.user.service.repository.AccountRepository;
 import com.ecomhub.user.service.response.ApiResponse;
-import com.ecomhub.user.service.service.AccountService;
-import com.ecomhub.user.service.service.OtpService;
+import com.ecomhub.user.service.service.authentication.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

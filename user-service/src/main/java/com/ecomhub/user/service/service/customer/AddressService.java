@@ -1,4 +1,4 @@
-package com.ecomhub.user.service.service;
+package com.ecomhub.user.service.service.customer;
 
 import com.ecomhub.user.service.dto.AddressDTO;
 import com.ecomhub.user.service.entity.Address;

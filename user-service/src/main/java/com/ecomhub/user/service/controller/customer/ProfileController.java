@@ -1,10 +1,10 @@
-package com.ecomhub.user.service.controller;
+package com.ecomhub.user.service.controller.customer;
 
 import com.ecomhub.user.service.dto.ProfileDTO;
 import com.ecomhub.user.service.dto.UserPrincipal;
 import com.ecomhub.user.service.entity.Profile;
 import com.ecomhub.user.service.response.ApiResponse;
-import com.ecomhub.user.service.service.ProfileService;
+import com.ecomhub.user.service.service.customer.ProfileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

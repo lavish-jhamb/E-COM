@@ -1,5 +1,14 @@
-package com.ecomhub.user.service.exception;
+package com.ecomhub.user.service.exception.global;
 
+import com.ecomhub.user.service.exception.AccountAlreadyExistException;
+import com.ecomhub.user.service.exception.AccountNotFoundException;
+import com.ecomhub.user.service.exception.AddressLimitExceededException;
+import com.ecomhub.user.service.exception.AddressNotFoundException;
+import com.ecomhub.user.service.exception.InvalidCredentialsException;
+import com.ecomhub.user.service.exception.InvalidOtpException;
+import com.ecomhub.user.service.exception.OtpExpiredException;
+import com.ecomhub.user.service.exception.OtpNotFoundException;
+import com.ecomhub.user.service.exception.ProfileNotFoundException;
 import com.ecomhub.user.service.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
